@@ -1,0 +1,89 @@
+--- psplash/psplash.c	2016-05-27 15:59:48.431409000 -0300
++++ psplash/psplash.c	2016-05-28 14:09:47.976104791 -0300
+@@ -23,6 +23,9 @@
+ #include "psplash-bar-img.h"
+ #include "radeon-font.h"
+ 
++#define VILAN_BLACK 0x22,0x28,0x2f
++#define VILAN_WHITE 0xff,0xff,0xff
++
+ #define MSG ""
+ 
+ void
+@@ -49,12 +52,12 @@
+ 			fb->height - (fb->height/6) - h, 
+ 			fb->width,
+ 			h,
+-			PSPLASH_BACKGROUND_COLOR);
++			VILAN_BLACK);
+ 
+   psplash_fb_draw_text (fb,
+ 			(fb->width-w)/2, 
+ 			fb->height - (fb->height/6) - h,
+-			PSPLASH_TEXT_COLOR,
++			VILAN_WHITE,
+ 			&radeon_font,
+ 			msg);
+ }
+@@ -197,11 +200,31 @@
+   return;
+ }
+ 
++char* itoa(int i, char b[]){
++    char const digit[] = "0123456789";
++    char* p = b;
++    if(i<0){
++        *p++ = '-';
++        i *= -1;
++    }
++    int shifter = i;
++    do{ 
++        ++p;
++        shifter = shifter/10;
++    }while(shifter);
++    *p = '\0';
++    do{ 
++        *--p = digit[i%10];
++        i = i/10;
++    }while(i);
++    return b;
++}
++
+ int 
+ main (int argc, char** argv) 
+ {
+-  char      *tmpdir;
+-  int        pipe_fd, i = 0, angle = 0, ret = 0;
++  char      *tmpdir, percent[3], msg1[]="Carregando : ", msg2[]=" %";
++  int        pipe_fd, i = 0, angle = 0, ret = 0, count;
+   PSplashFB *fb;
+   bool       disable_console_switch = FALSE;
+   
+@@ -270,7 +293,7 @@
+   /* Draw the Poky logo  */
+   psplash_fb_draw_image (fb, 
+ 			 (fb->width  - POKY_IMG_WIDTH)/2, 
+-			 ((fb->height * 5) / 6 - POKY_IMG_HEIGHT)/2,
++			 (fb->height - POKY_IMG_HEIGHT)/2,
+ 			 POKY_IMG_WIDTH,
+ 			 POKY_IMG_HEIGHT,
+ 			 POKY_IMG_BYTES_PER_PIXEL,
+@@ -285,9 +308,15 @@
+ 			 BAR_IMG_BYTES_PER_PIXEL,
+ 			 BAR_IMG_RLE_PIXEL_DATA);
+ 
+-  psplash_draw_progress (fb, 0);
+-
+-  psplash_draw_msg (fb, MSG);
++  for (count=1;count<101;count++) {
++	psplash_draw_progress (fb, count);
++	strcat(msg1, itoa(count, percent));
++	strcat(msg1, msg2);
++	psplash_draw_msg (fb, msg1);
++	usleep (30000);
++	msg1[0] = 0;
++	strcat(msg1, "Carregando : ");
++  }  
+ 
+   psplash_main (fb, pipe_fd, 0);
+ 

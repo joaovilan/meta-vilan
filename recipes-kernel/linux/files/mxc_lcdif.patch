@@ -1,0 +1,21 @@
+--- linux-toradex/drivers/video/fbdev/mxc/mxc_lcdif.c	2019-06-07 15:49:48.720198803 -0300
++++ linux-toradex/drivers/video/fbdev/mxc/mxc_lcdif.c	2019-06-07 15:50:14.564357723 -0300
+@@ -37,6 +37,18 @@
+ 
+ static struct fb_videomode lcdif_modedb[] = {
+ 	{
++    	/* 800x480 @ 60 Hz , pixel clk @ 33.26MHz */
++        "Chip", 60, 800, 480, 30030,
++         .left_margin = 47,
++         .right_margin = 11,
++         .hsync_len = 40,
++         .upper_margin = 25,
++         .lower_margin = 45,
++         .vsync_len = 20,
++         .sync = FB_SYNC_HOR_HIGH_ACT | FB_SYNC_VERT_HIGH_ACT | FB_SYNC_CLK_LAT_FALL,
++         .vmode = FB_VMODE_NONINTERLACED,
++         .flag = 0,}
++	{
+ 	/* 1024x600 @ 59 Hz , pixel clk @ 45 MHz */ /* 22222 ps*/
+ 	"FusionF10A", 59, 1024, 600, 22222,
+ 	 .left_margin = 104,

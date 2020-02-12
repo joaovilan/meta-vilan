@@ -1,0 +1,11 @@
+--- a/drivers/tty/vt/vt.c	2019-06-07 15:45:06.927622033 -0300
++++ b/drivers/tty/vt/vt.c	2019-06-07 15:45:39.023560100 -0300
+@@ -1721,7 +1721,7 @@
+ 	vc->vc_decscnm		= 0;
+ 	vc->vc_decom		= 0;
+ 	vc->vc_decawm		= 1;
+-	vc->vc_deccm		= global_cursor_default;
++	vc->vc_deccm		= 0;
+ 	vc->vc_decim		= 0;
+ 
+ 	vt_reset_keyboard(vc->vc_num);

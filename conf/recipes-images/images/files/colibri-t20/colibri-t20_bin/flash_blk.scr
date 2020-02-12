@@ -1,0 +1,34 @@
+test -n ${interface} || setenv interface mmc
+
+test -n ${hw-version} || if test $lnxoffset = 0x1200000; then setenv hw-version v11; else setenv hw-version v12; fi
+
+setenv check_configblock 'setexpr toradex_oui_addr $loadaddr + 8; nand read $loadaddr 0x300000 0x64; crc32 -v $toradex_oui_addr 3 94305232'
+
+setenv migrate_1 'nand read $loadaddr 0x15C0000 0x40; crc32 -v $toradex_oui_addr 3 94305232 && nand erase.part cfgblock && nand write $loadaddr 0x300000 0x64'
+setenv migrate_2 'nand read $loadaddr 0x1C80000 0x40; crc32 -v $toradex_oui_addr 3 94305232 && nand erase.part cfgblock && nand write $loadaddr 0x300000 0x64'
+setenv migrate_3 'nand read $loadaddr 0x7380000 0x40; crc32 -v $toradex_oui_addr 3 94305232 && nand erase.part cfgblock && nand write $loadaddr 0x300000 0x64'
+setenv migrate_4 'nand read $loadaddr 0x7900000 0x40; crc32 -v $toradex_oui_addr 3 94305232 && nand erase.part cfgblock && nand write $loadaddr 0x300000 0x64'
+setenv migrate_configblock 'setexpr toradex_oui_addr $loadaddr + 8; run migrate_1; run migrate_2; run migrate_3; run migrate_4'
+
+# Migrate to UBI volume based boot schema
+setenv prepare_kernel_fdt 'ubi create kernel 0x800000 static && ubi create dtb 0x20000 static'
+setenv prepare_rootfs 'ubi create rootfs - dynamic'
+setenv prepare_ubi 'ubi part ubi && if ubi check rootfs; then if ubi check kernel; then else ubi remove rootfs && run prepare_kernel_fdt && run prepare_rootfs; fi; else run prepare_kernel_fdt && run prepare_rootfs; fi'
+
+setenv update_configblock 'load ${interface} 0:1 ${loadaddr} ${board_name}/configblock.bin && nand erase.part cfgblock && nand write ${loadaddr} cfgblock ${filesize}'
+setenv update_uboot 'fatload ${interface} 0:1 ${loadaddr} ${board_name}/${board_name}-${ram-size}-${hw-version}-nand.img && nand erase 0x0 0x300000 && nand write ${loadaddr} 0x0 ${filesize}'
+
+setenv update_kernel 'fatload ${interface} 0:1 ${loadaddr} ${board_name}/zImage && ubi write ${loadaddr} kernel ${filesize}'
+#Writting data to invalidate current device tree
+setenv update_fdt 'mw.w ${loadaddr} 0xFF 16 && ubi write ${loadaddr} dtb 16 && fatload ${interface} 0:1 ${loadaddr} ${board_name}/${soc}-colibri-${fdt_board}.dtb && 
+ubi write ${loadaddr} dtb ${filesize}'
+setenv update_rootfs 'fatload ${interface} 0:1 ${loadaddr} ${board_name}/ubifs_${leb-size}.img && ubi write ${loadaddr} rootfs ${filesize}'
+
+setenv echo_v2.3b7 echo "successfully updated U-Boot," \${note} "power-cycle and enter \"run setupdate\; run migrate_v2.3b7\" to complete update"
+setenv migrate_v2.3b7 'run migrate_configblock; nand erase.part ubi; run update_new'
+setenv update_v2.3b7 'setenv ram-size 256; run update_uboot && setenv note "wait a sec," && run echo_v2.3b7 && md 0x1ffffffc 1 && setenv ram-size 512 && run update_uboot && setenv note && run echo_v2.3b7'
+
+setenv update_new 'run check_configblock || run migrate_configblock; run update_uboot; run prepare_ubi && run update_kernel && run update_rootfs && run update_fdt; reset'
+setenv update 'if test -v $ver; then run update_new; else run update_v2.3b7; fi'
+
+echo 'enter "run update" to update the entire module'

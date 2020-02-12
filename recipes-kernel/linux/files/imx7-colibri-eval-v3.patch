@@ -1,0 +1,53 @@
+--- a/arch/arm/boot/dts/imx7-colibri-eval-v3.dtsi	2019-06-07 15:38:14.474351719 -0300
++++ b/arch/arm/boot/dts/imx7-colibri-eval-v3.dtsi	2019-06-07 15:40:31.642094215 -0300
+@@ -200,7 +200,7 @@
+ 		bus-width = <18>;
+ 
+ 		display-timings {
+-			native-mode = <&timing_vga>;
++			native-mode = <&timing_wvga1>;
+ 
+ 			/* Standard VGA timing */
+ 			timing_vga: 640x480 {
+@@ -237,6 +237,23 @@
+ 				vsync-active = <0>;
+ 				pixelclk-active = <0>;
+ 			};
++			/* CHIPTRONIC */
++                        timing_wvga1: 800x480chip {
++                                clock-frequency = <33300000>;
++                                hactive = <800>;
++                                vactive = <480>;
++                                hback-porch = <46>;
++                                hfront-porch = <216>;
++                                vback-porch = <23>;
++                                vfront-porch = <14>;
++                                hsync-len = <40>;
++                                vsync-len = <20>;
++
++                                de-active = <0>;
++                                hsync-active = <1>;
++                                vsync-active = <1>;
++                                pixelclk-active = <1>;
++                        };
+ 			/* WVGA Timing, TouchRevolution Fusion 7" */
+ 			timing_wvga2: 800x480pixclkact {
+ 				clock-frequency = <33260000>;
+@@ -329,14 +346,17 @@
+ 
+ &uart1 {
+ 	status = "okay";
++	dma-names = "", "";
+ };
+ 
+ &uart2 {
+ 	status = "okay";
++	dma-names = "", "";
+ };
+ 
+ &uart3 {
+ 	status = "okay";
++	dma-names = "", "";
+ };
+ 
+ &usbotg1 {
