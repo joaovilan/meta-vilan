@@ -5,7 +5,7 @@
 
 
 
-#Instalando os pacotes necessários:
+# Instalando os pacotes necessários:
 
 $ sudo dpkg --add-architecture i386
 
@@ -19,7 +19,7 @@ $ cd /usr/lib; sudo ln -s libcrypto++.so.9.0.0 libcryptopp.so.6
 
 
 
-##Instalando a ferramenta repo:
+## Instalando a ferramenta repo:
 
 $ mkdir ~/bin
 
@@ -31,7 +31,7 @@ $ chmod a+x ~/bin/repo
 
 
 
-###Configurando o Git:
+### Configurando o Git:
 
 $ sudo apt install git
 
