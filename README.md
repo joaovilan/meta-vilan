@@ -1,8 +1,8 @@
 # meta-vilan
-Station: Ubuntu 16.04 64-bit
-Toradex Version: 2.7
-Distribution: Ångström v2016.12
-OpenEmbedded/Yocto Codename: morty
+Station: Ubuntu 16.04 64-bit 
+Toradex Version: 2.7 
+Distribution: Ångström v2016.12 
+OpenEmbedded/Yocto Codename: morty 
 Yocto Project Release: 2.2
 
 Instalando os pacotes necessários:
