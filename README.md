@@ -65,36 +65,38 @@ $ . export
 
 
 Abra o arquivo build/conf/local.conf e escolha a máquina:
+
 MACHINE ?= "colibri-imx7"
 
 
 
 Comente a linha:
+
 'INHERIT += "rm_work"'
 
 
 
 Acrescente no final do arquivo a seguinte linha:
+
 ACCEPT_FSL_EULA = "1"
 
 
 
 Adicionando a layer Java
 
-cd
+$ cd
 
-cd oe-core/layers
+$ cd oe-core/layers
 
-# repository version known to work with V2.7 images
-META_JAVA=65bd3d6eaa6ae4e06f1c04efb493f448cf6d619b 
+$ META_JAVA=65bd3d6eaa6ae4e06f1c04efb493f448cf6d619b 
 
-git clone --no-checkout http://git.yoctoproject.org/git/meta-java
+$ git clone --no-checkout http://git.yoctoproject.org/git/meta-java
 
-cd meta-java
+$ cd meta-java
 
-git checkout -b mywork $META_JAVA
+$ git checkout -b mywork $META_JAVA
 
-cd ..
+$ cd ..
 
 
 
@@ -105,9 +107,9 @@ ${TOPDIR}/../layers/meta-java \
 
 Baixando o repositorio meta-vilan com as especificações da imagem para OBDMAP-CONNECT
 
-cd oe-core/layers
+$ cd oe-core/layers
 
-git clone https://github.com/joaovilan/meta-vilan.git
+$ git clone https://github.com/joaovilan/meta-vilan.git
 
 
 
@@ -118,4 +120,4 @@ ${TOPDIR}/../layers/meta-vilan \
 
 Compilar tudo
 
-bitbake -k obdmap-image
+$ bitbake -k obdmap-image
