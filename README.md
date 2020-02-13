@@ -58,7 +58,7 @@ $ . export
 
 
 
-Abra o arquivo **build/conf/local.conf** e escolha a máquina:
+Abra o arquivo __build/conf/local.conf__ e escolha a máquina:
 
 MACHINE ?= "colibri-imx7"
 
