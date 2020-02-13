@@ -79,5 +79,43 @@ ACCEPT_FSL_EULA = "1"
 
 
 
+Adicionando a layer Java
+
+cd
+
+cd oe-core/layers
+
+# repository version known to work with V2.7 images
+META_JAVA=65bd3d6eaa6ae4e06f1c04efb493f448cf6d619b 
+
+git clone --no-checkout http://git.yoctoproject.org/git/meta-java
+
+cd meta-java
+
+git checkout -b mywork $META_JAVA
+
+cd ..
+
+
+
+Acrescentar no arquivo build/conf/bblayers.conf
+${TOPDIR}/../layers/meta-java \
+
+
+
+Baixando o repositorio meta-vilan com as especificações da imagem para OBDMAP-CONNECT
+
+cd oe-core/layers
+
+git clone https://github.com/joaovilan/meta-vilan.git
+
+
+
 Colocar a seguinte entrada no arquivo bblayers.conf:
 ${TOPDIR}/../layers/meta-vilan \
+
+
+
+Compilar tudo
+
+bitbake -k obdmap-image
