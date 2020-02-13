@@ -5,7 +5,7 @@
 
 
 
-# Instalando os pacotes necessários:
+## Instalando os pacotes necessários:
 
 $ sudo dpkg --add-architecture i386
 
@@ -31,7 +31,7 @@ $ chmod a+x ~/bin/repo
 
 
 
-### Configurando o Git:
+## Configurando o Git:
 
 $ sudo apt install git
 
@@ -41,7 +41,7 @@ $ git config --global user.email joaovilan@chiptronic.com.br
 
 
 
-Baixando o repositório:
+## Baixando o repositório:
 
 $ mkdir oe-core
 
@@ -53,7 +53,7 @@ $ repo sync
 
 
 
-Iniciando a compilação
+## Iniciando o ambiente
 $ . export
 
 
@@ -76,7 +76,7 @@ ACCEPT_FSL_EULA = "1"
 
 
 
-Adicionando a layer Java
+## Adicionando a layer Java
 
 $ cd
 
@@ -99,7 +99,7 @@ ${TOPDIR}/../layers/meta-java \
 
 
 
-Baixando o repositorio meta-vilan com as especificações da imagem para OBDMAP-CONNECT
+## Baixando o repositorio meta-vilan com as especificações da imagem para OBDMAP-CONNECT
 
 $ cd oe-core/layers
 
@@ -112,6 +112,6 @@ ${TOPDIR}/../layers/meta-vilan \
 
 
 
-Compilar tudo
+## Compilar tudo
 
 $ bitbake -k obdmap-image
