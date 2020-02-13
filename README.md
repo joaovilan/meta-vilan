@@ -1,7 +1,7 @@
 # meta-vilan
-|Station|Toradex Version|Distribution|OpenEmbedded/Yocto Codename|Yocto Project Release|
-|-------|---------------|------------|---------------------------|---------------------|
-|Ubuntu 16.04 64-bit|2.7|Ångström v2016.12|morty|2.2
+|         Station       |Toradex Version|   Distribution  |OpenEmbedded/Yocto Codename|Yocto Project Release|
+|-----------------------|---------------|-----------------|---------------------------|---------------------|
+|  Ubuntu 16.04 64-bit  |      2.7      |Ångström v2016.12|          morty            |         2.2         |
 
 
 
